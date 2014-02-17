@@ -2,6 +2,7 @@
 
 ## Current
 
+* Add categories attribute to Wikipedia page [@seanybob]()
 * Add revision_id and parent_id properties. PR [#23]() by [@fusiongyro]()
 
 ## Version 1.1

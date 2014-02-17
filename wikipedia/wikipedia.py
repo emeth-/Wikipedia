@@ -524,6 +524,44 @@ class WikipediaPage(object):
     return self._links
 
   @property
+  def categories(self):
+    '''
+    List of titles of Wikipedia page categories on a page.
+
+    .. note:: Only includes articles from namespace 14, meaning Category.
+    '''
+
+    if not getattr(self, '_categories', False):
+      self._categories = []
+
+      request = {
+        'prop': 'links',
+        'plnamespace': 14,
+        'pllimit': 'max',
+      }
+      if not getattr(self, 'title', None) is None:
+         request['titles'] = self.title
+      else:
+         request['pageids'] = self.pageid
+      lastContinue = {}
+
+      # based on https://www.mediawiki.org/wiki/API:Query#Continuing_queries
+      while True:
+        params = request.copy()
+        params.update(lastContinue)
+
+        request = _wiki_request(**params)
+        
+        self._categories.extend([link['title'].replace("Category:", "") for link in request['query']['pages'][self.pageid]['links']])
+
+        if 'continue' not in request:
+          break
+
+        lastContinue = request['continue']
+
+    return self._categories
+
+  @property
   def sections(self):
     '''
     List of section titles from the table of contents on the page.

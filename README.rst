@@ -34,6 +34,8 @@ Wikipedia data, not getting it.
   # u'New York is a state in the Northeastern region of the United States. New York is the 27th-most exten'...
   >>> ny.links[0]
   # u'1790 United States Census'
+  >>> ny.categories[0]
+  # ...
 
   >>> wikipedia.set_lang("fr")
   >>> wikipedia.summary("Facebook", sentences=1)
